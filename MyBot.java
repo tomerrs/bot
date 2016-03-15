@@ -31,13 +31,13 @@ public class MyBot implements PirateBot {
     	
     	for(Pirate p2: availablePirates){
     	if(!attack(game, p2))// a function that serves to attack with pirates that can.
-    		getTreasure(game, p2);//moves with the pirates left that couldn't either attack or have treasures.
+    		moveToClosestTreasure(game, p2);//moves with the pirates left that couldn't either attack or have treasures.
     	}
     	
     }
 
 
-	private void getTreasure(PirateGame game,Pirate p) {
+	private void moveToClosestTreasure(PirateGame game,Pirate p) {
 		// move the pirate to its closest treasure.
 		
 	}
@@ -47,21 +47,18 @@ public class MyBot implements PirateBot {
 		//attack with the pirate.
 		Pirate target = null;
 		for(Pirate p1: game.allEnemyPirates()){ // p1 = enemy.
-			if(game.inRange(p, p1)) // checks if enemy is in range.
+			if(attackedPirates.contains(p1)) // checking if current enemy was attacked or not
+				continue;
+			if(game.inRange(p, p1) && p1.getTurnsToSober() < 5){ // checks if enemy is in range.
 					if(p1.hasTreasure()){ // checks if enemy has treasure.
-						for(Pirate temp: attackedPirates){	
-							if(p1.equals(temp)) // if enemy was already attacked, break from the loop AKA don't attack a drunk pirate.
-								break;
-							if(!p1.equals(temp) && temp.equals(attackedPirates.get(attackedPirates.size()-1))){ // if enemy wasn't attacked and is the last enemy in the list, attack him.
 						game.attack(p, p1); // attack the enemy.
 						remainingActions--; // amount of moves decreased by 1.
 						availablePirates.remove(p); // this pirate isn't usable anymore.
 						attackedPirates.add(p1); // the enemy is attacked and therefore shouldn't be attacked again.
-						return true; // successfully attacked.
-							}
-						}
+						return true; // successfully attacked.	
 					}
-				target = p1;
+					target = p1;
+			}
 		}
 		if(target != null){
 			game.attack(p, target); // attack the enemy.
