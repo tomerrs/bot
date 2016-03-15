@@ -48,9 +48,21 @@ public class MyBot implements PirateBot {
     }
 
 
-	private void moveToClosestTreasure(PirateGame game,Pirate p) {
+	private void moveToClosestTreasure(PirateGame game,Pirate p, int moves) {
 		// move the pirate to its closest treasure.
+		int minDis = Integer.MAX_VALUE; //2147483647
+		int index = 0;
 		
+		for(int i = 0; i < availableTreasures.length; i++)
+		{
+			if(game.distance(p, availableTreasures[i]) < minDis)
+			{
+				minDis = game.distance(p, t);
+				index = i;
+			}
+		}
+		
+		game.setSail(p,game.getSailOptions(p,availableTreasures[index],moves)[0]);
 	}
 
 
