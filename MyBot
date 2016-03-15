@@ -19,10 +19,35 @@ public class MyBot implements PirateBot {
     public void doTurn(PirateGame game) {
     	availableTreasures = game.treasures();
     	remainingActions = game.getActionsPerTurn();
+    	
     	/*
     	 The basic plan is to prioritize bringing ships with treasures to their initial location,
-    	 then have all ships that are able to attack attack ships in their radius(prioritizing ships with
+    	 then have all ships that are able to attack, attack ships in their radius(prioritizing ships with
     	 treasures in case of multiple ships in range) and finally move all ships that don't have treasures
     	 or can't attack.
     	 */
+    	for(Pirate p: game.mySoberPirates()){
+    	movePirateHome(p);//will move pirates with treasure to their initial location
+    	if(!attack(p))// a function that serves to attack with pirates that can
+    		getTreasure(p);//moves with the pirates left that couldn't either attack or have treasures
+    	}
     }
+
+
+	private void getTreasure(Pirate p) {
+		// move the pirate to its closest treasure
+		
+	}
+
+
+	private boolean attack(Pirate p) {
+		//attack with the pirate
+		return false;
+	}
+
+
+	private void movePirateHome(Pirate p) {
+		//move the pirate to its initial location
+		
+	}
+	}
