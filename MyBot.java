@@ -42,6 +42,8 @@ public class MyBot implements PirateBot {
 
 	private boolean attack(Pirate p) {
 		//attack with the pirate
+		
+		//timo-<will take care of this>
 		return false;
 	}
 
