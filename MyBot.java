@@ -17,6 +17,13 @@ public class MyBot implements PirateBot {
 	
 	
     public void doTurn(PirateGame game) {
+    	/* this is horrible practice, we couldnt get initializing an empty array list to work @ptzafrir */
+    	
+	attackedPirates = game.allEnemyPirates();
+        attackedPirates.clear();
+        
+        /* this has to be initiallized empty at the start (line 16) */
+        
     	availableTreasures = game.treasures();
     	remainingActions = game.getActionsPerTurn();
     	availablePirates = game.mySoberPirates();
