@@ -26,10 +26,14 @@ public class MyBot implements PirateBot {
     	 treasures in case of multiple ships in range) and finally move all ships that don't have treasures
     	 or can't attack.
     	 */
-    	for(Pirate p1: game.myPiratesWithTreasures())
+    	for(Pirate p1: game.myPiratesWithTreasures()){
+    		if(remainingActions < p1.getCarryTreasureSpeed())
+    			return;
     		movePirateHome(game, p1);//will move pirates with treasure to their initial location.
-    	
+    	}
     	for(Pirate p2: availablePirates){
+    		if(remainingActions < 1)
+    			return;
     	if(!attack(game, p2))// a function that serves to attack with pirates that can.
     		moveToClosestTreasure(game, p2);//moves with the pirates left that couldn't either attack or have treasures.
     	}
@@ -73,12 +77,14 @@ public class MyBot implements PirateBot {
 
 	private void movePirateHome(PirateGame game,Pirate p) {
 		//move the pirate to its initial location.
+		int maxSpeed = p.getCarryTreasureSpeed();
+		Location home = p.getInitialLocation();
 		for(Location l: usedLocations)
-			if(l.equals(game.getSailOptions(p, p.getInitialLocation(), 1).get(0)))
+			if(l.equals(game.getSailOptions(p, home, maxSpeed).get(0)))
 				return;
-		game.setSail(p, game.getSailOptions(p, p.getInitialLocation(), 1).get(0));
-		remainingActions--;
+		game.setSail(p, game.getSailOptions(p, home, maxSpeed).get(0));
+		remainingActions -= p.getCarryTreasureSpeed();
 		availablePirates.remove(p);
-		usedLocations.add(game.getSailOptions(p, p.getInitialLocation(), 1).get(0));
+		usedLocations.add(game.getSailOptions(p, home, maxSpeed).get(0));
 	}
 	}
